@@ -23,7 +23,12 @@ export default function Problems() {
       // Get problems
 
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/problems/${topicId}`
+        `${process.env.REACT_APP_API_URL}/api/problems/${topicId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const data = await res.json();
       setProblems(data);
@@ -32,7 +37,12 @@ export default function Problems() {
       const userId = getUserId();
 
       const progRes = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/progress/${userId}/${topicId}`
+        `${process.env.REACT_APP_API_URL}/api/progress/${userId}/${topicId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
 
       const prog = await progRes.json();
@@ -53,7 +63,10 @@ export default function Problems() {
 
     await fetch(`${process.env.REACT_APP_API_URL}/api/progress/save`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
       body: JSON.stringify({ userId, problemId, done: value }),
     });
   };

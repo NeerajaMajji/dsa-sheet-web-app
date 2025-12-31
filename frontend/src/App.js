@@ -4,6 +4,8 @@ import Topics from "./pages/Topics";
 import Problems from "./pages/Problems";
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
+import Progress from "./pages/Progress";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -25,6 +27,24 @@ function App() {
           element={
             <PrivateRoute>
               <Problems />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/progress"
+          element={
+            <PrivateRoute>
+              <Progress />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <Profile />
             </PrivateRoute>
           }
         />

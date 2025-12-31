@@ -14,14 +14,22 @@ export default function Topics() {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/api/topics`)
+    fetch(`${process.env.REACT_APP_API_URL}/api/topics`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => setTopics(data));
   }, []);
 
   useEffect(() => {
     async function load() {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/topics`);
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/api/topics`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const data = await res.json();
 
       const userId = getUserId();
@@ -29,7 +37,12 @@ export default function Topics() {
       const enriched = await Promise.all(
         data.map(async (t) => {
           const r = await fetch(
-            `${process.env.REACT_APP_API_URL}/api/topic-progress/${userId}/${t._id}`
+            `${process.env.REACT_APP_API_URL}/api/topic-progress/${userId}/${t._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
           );
           const p = await r.json();
           return { ...t, progress: p };

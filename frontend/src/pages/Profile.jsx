@@ -9,7 +9,12 @@ export default function Profile() {
     async function load() {
       const userId = getUserId();
       const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/user/${userId}`
+        `${process.env.REACT_APP_API_URL}/api/user/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const data = await res.json();
       setUser(data);
