@@ -8,7 +8,9 @@ export default function Profile() {
   useEffect(() => {
     async function load() {
       const userId = getUserId();
-      const res = await fetch(`http://localhost:5000/api/user/${userId}`);
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/user/${userId}`
+      );
       const data = await res.json();
       setUser(data);
     }

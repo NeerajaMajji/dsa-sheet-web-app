@@ -21,7 +21,10 @@ export default function Problems() {
   useEffect(() => {
     async function load() {
       // Get problems
-      const res = await fetch(`http://localhost:5000/api/problems/${topicId}`);
+
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/problems/${topicId}`
+      );
       const data = await res.json();
       setProblems(data);
 
@@ -29,7 +32,7 @@ export default function Problems() {
       const userId = getUserId();
 
       const progRes = await fetch(
-        `http://localhost:5000/api/progress/${userId}/${topicId}`
+        `${process.env.REACT_APP_API_URL}/api/progress/${userId}/${topicId}`
       );
 
       const prog = await progRes.json();
@@ -48,7 +51,7 @@ export default function Problems() {
 
     setChecked((prev) => ({ ...prev, [problemId]: value }));
 
-    await fetch("http://localhost:5000/api/progress/save", {
+    await fetch(`${process.env.REACT_APP_API_URL}/api/progress/save`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ userId, problemId, done: value }),
