@@ -1,18 +1,25 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
 import Topics from "./pages/Topics";
 import Problems from "./pages/Problems";
+import Profile from "./pages/Profile";
+import Progress from "./pages/Progress";
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
-import Progress from "./pages/Progress";
-import Profile from "./pages/Profile";
 
-function App() {
+function Layout() {
+  const location = useLocation();
+  const token = localStorage.getItem("token");
+
+  const hideNavbar = location.pathname === "/" || !token;
+
   return (
-    <BrowserRouter>
-      <Navbar />
+    <>
+      {!hideNavbar && <Navbar />}
+
       <Routes>
         <Route path="/" element={<Login />} />
+
         <Route
           path="/topics"
           element={
@@ -32,15 +39,6 @@ function App() {
         />
 
         <Route
-          path="/progress"
-          element={
-            <PrivateRoute>
-              <Progress />
-            </PrivateRoute>
-          }
-        />
-
-        <Route
           path="/profile"
           element={
             <PrivateRoute>
@@ -48,9 +46,24 @@ function App() {
             </PrivateRoute>
           }
         />
+
+        <Route
+          path="/progress"
+          element={
+            <PrivateRoute>
+              <Progress />
+            </PrivateRoute>
+          }
+        />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Layout />
+    </BrowserRouter>
+  );
+}
